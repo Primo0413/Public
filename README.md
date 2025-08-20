@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # WPFSerialAssitan ´®¿ÚÖúÊÖ
 ------------------
 ## ÒıÑÔ
@@ -125,3 +126,7 @@
 
 
 
+=======
+# Public
+it is a public repository for me to start github using
+>>>>>>> 00c76209f88eb3146de30cc8a91bd76d5d5f34da
