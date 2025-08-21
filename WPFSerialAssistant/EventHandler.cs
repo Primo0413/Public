@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace WPFSerialAssistant
 {
@@ -193,6 +194,24 @@ namespace WPFSerialAssistant
             else
             {
                 SendData();
+
+                // 发送字节显示
+                string sTemp = GetSendData();
+
+                string sDateTemp = "";
+                sDateTemp = GetTimeData();
+
+                recvDataRichTextBox.AppendText(sDateTemp);
+                recvDataRichTextBox.AppendText(sTemp);
+                recvDataRichTextBox.AppendText("\n");
+
+                TextPointer pTemp = recvDataRichTextBox.Document.ContentEnd.GetPositionAtOffset(-72);
+
+                // 更改接收显示字节的字节颜色
+                TextRange dataTextRange = new TextRange(pTemp, recvDataRichTextBox.Document.ContentEnd);
+                dataTextRange.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(Colors.Black));
+
+                recvDataRichTextBox.ScrollToEnd();
             }
         }
 
@@ -506,8 +525,22 @@ namespace WPFSerialAssistant
             {
                 if (showReceiveData)
                 {
+                    // 增加接收时间戳
+                    string sTemp = "";
+                    sTemp = GetTimeData();
+                    recvDataRichTextBox.AppendText(sTemp);
                     // 根据显示模式显示接收到的字节.
                     recvDataRichTextBox.AppendText(Utilities.BytesToText(recvBuffer, receiveMode, serialPort.Encoding));
+
+                    // 增加换行符
+                    recvDataRichTextBox.AppendText("\n");
+
+                    TextPointer pTemp = recvDataRichTextBox.Document.ContentEnd.GetPositionAtOffset(-72);
+
+                    // 更改接收显示字节的字节颜色
+                    TextRange dataTextRange = new TextRange(pTemp, recvDataRichTextBox.Document.ContentEnd);
+                    dataTextRange.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(Colors.Green));  // 设置为绿色
+
                     recvDataRichTextBox.ScrollToEnd();
                 }
 

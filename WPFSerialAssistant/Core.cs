@@ -46,6 +46,19 @@ namespace WPFSerialAssistant
             timeDateTextBlock.Text = timeDateString;
         }
 
+        private string GetTimeData()
+        {
+            string timeDateString = "";
+            DateTime now = DateTime.Now;
+            timeDateString = string.Format("[{0}:{1}:{2}:{3}] ",
+                now.Hour.ToString("00"),
+                now.Minute.ToString("00"),
+                now.Second.ToString("00"),
+                now.Millisecond.ToString("000"));
+
+            return timeDateString;
+        }
+
         /// <summary>
         /// 警告信息提示（一直提示）
         /// </summary>
@@ -104,6 +117,11 @@ namespace WPFSerialAssistant
             {
                 return SerialPortWrite(textToSend);
             }
+        }
+
+        private string GetSendData()
+        {
+            return sendDataTextBox.Text;
         }
 
         private void AutoSendData()

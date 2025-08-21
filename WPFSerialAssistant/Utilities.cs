@@ -8,9 +8,9 @@ namespace WPFSerialAssistant
 {
     public static class Utilities
     {
-        public static string BytesToText(List<byte> bytesBuffer, ReceiveMode mode, Encoding encoding)
+        public static string BytesToText(List<byte> bytesBuffer, ReceiveMode mode, Encoding encoding, bool addSeparator = true)
         {
-            string result = "";
+            StringBuilder result = new StringBuilder();
 
             if (mode == ReceiveMode.Character)
             {
@@ -22,23 +22,33 @@ namespace WPFSerialAssistant
                 switch (mode)
                 {
                     case ReceiveMode.Hex:
-                        result += Convert.ToString(item, 16).ToUpper() + " ";
+                        // 转换为16进制，确保高位0（使用 "X2" 格式）
+                        result.Append(item.ToString("X2").ToUpper());
                         break;
                     case ReceiveMode.Decimal:
-                        result += Convert.ToString(item, 10) + " ";
+                        // 转换为10进制
+                        result.Append(item.ToString("D"));
                         break;
                     case ReceiveMode.Octal:
-                        result += Convert.ToString(item, 8) + " ";
+                        // 转换为8进制
+                        result.Append(item.ToString("O"));
                         break;
                     case ReceiveMode.Binary:
-                        result += Convert.ToString(item, 2) + " ";
+                        // 转换为2进制，确保每个数值有8位
+                        result.Append(Convert.ToString(item, 2).PadLeft(8, '0'));
                         break;
                     default:
                         break;
                 }
+
+                // 如果需要添加分隔符
+                if (addSeparator)
+                {
+                    result.Append(" ");
+                }
             }
 
-            return result;
+            return result.ToString();
         }
 
         public static string ToSpecifiedText(string text, SendMode mode, Encoding encoding)
