@@ -353,14 +353,13 @@
                                         <RadioButton
                                             x:Name="CheckNoneRadioButton"
                                             Margin="0,5"
-                                            Click="CheckModeButton_Click"
+                                            Checked="CheckModeButton_Checked"
                                             Content="None"
-                                            IsChecked="True"
                                             Tag="None" />
                                         <RadioButton
                                             x:Name="CheckCrcRadioButton"
                                             Margin="0,5"
-                                            Click="CheckModeButton_Click"
+                                            Checked="CheckModeButton_Checked"
                                             Content="CRC-16"
                                             Tag="CRC16" />
                                     </StackPanel>
@@ -374,22 +373,23 @@
                                         <RadioButton
                                             x:Name="noCheckPositionRadioButton"
                                             Margin="0,5"
-                                            Checked="CheckPosButton_Checked"
+                                            Click="CheckPosButton_Click"
                                             Content="无"
-                                            IsChecked="True"
                                             Tag="None" />
                                         <RadioButton
                                             x:Name="lastCheckPositionRadioButton"
                                             Margin="0,5"
-                                            Checked="CheckPosButton_Checked"
+                                            Click="CheckPosButton_Click"
                                             Content="最后"
-                                            Tag="Last" />
+                                            Tag="Last"
+                                            Unchecked="CheckPosButton_Unchecked" />
                                         <RadioButton
-                                            x:Name="lasttoeCheckPositionRadioButton"
+                                            x:Name="lasttwoCheckPositionRadioButton"
                                             Margin="0,5"
-                                            Checked="CheckPosButton_Checked"
+                                            Click="CheckPosButton_Click"
                                             Content="向前两个字节"
-                                            Tag="LastTow" />
+                                            Tag="LastTow"
+                                            Unchecked="CheckPosButton_Unchecked" />
                                     </StackPanel>
                                 </GroupBox>
                             </StackPanel>

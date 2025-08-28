@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 //using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace WPFSerialAssistant
@@ -228,7 +229,9 @@ namespace WPFSerialAssistant
             // 保存发送追加
             config.Add("appendContent", appendContent);
 
-            config.Add("history", sendHistory);
+            // 保存校验位配置
+            config.Add("checkmode", checkmode);
+            config.Add("checkpos", checkpos);
 
             // 保存配置信息到磁盘中
             Configuration.Save(config, @"Config\default.conf");
@@ -285,8 +288,6 @@ namespace WPFSerialAssistant
             autoSendIntervalTextBox.Text = interval;
             timeUnitComboBox.SelectedIndex = timeUnitIndex;
 
-            sendHistory = config.GetStringList("history");
-
             // 窗口状态
             if (config.GetBool("maxmized"))
             {
@@ -333,6 +334,40 @@ namespace WPFSerialAssistant
             {
                 serialCommunicationSettingViewMenuItem.IsChecked = false;
                 serialCommunicationConfigPanel.Visibility = Visibility.Collapsed;
+            }
+
+            CheckModeButton_Checked(CheckNoneRadioButton, null);
+
+            // 加载校验模式和位置
+            checkmode = (CheckMode)config.GetInt("checkmode");
+
+            switch (checkmode)
+            {
+                case CheckMode.None:
+                    CheckNoneRadioButton.IsChecked = true;
+                    break;
+                case CheckMode.Crc16:
+                    CheckCrcRadioButton.IsChecked = true;
+                    break;
+                default:
+                    break;
+            }
+
+            checkpos = (CheckPos)config.GetInt("checkpos");
+
+            switch (checkpos)
+            {
+                case CheckPos.None:
+                    noCheckPositionRadioButton.IsChecked = true;
+                    break;
+                case CheckPos.Last:
+                    lastCheckPositionRadioButton.IsChecked = true;
+                    break;
+                case CheckPos.LastTow:
+                    lasttwoCheckPositionRadioButton.IsChecked = true;
+                    break;
+                default:
+                    break;
             }
 
             // 加载接收模式

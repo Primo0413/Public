@@ -112,18 +112,6 @@ namespace WPFSerialAssistant
             return Get(key).ToString();
         }
 
-        public List<string> GetStringList(string key)
-        {
-            if (configuration.TryGetValue(key, out object obj) && obj is List<string> list)
-            {
-                return list;  // 直接返回保存的 List<string>
-            }
-            else
-            {
-                return new List<string>(); // 如果不存在，返回一个新的空 List<string>
-            }
-        }
-
         /// <summary>
         /// 获取int类型的配置信息
         /// </summary>
