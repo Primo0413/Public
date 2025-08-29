@@ -85,7 +85,7 @@ namespace WPFSerialAssistant
             else
             {
                 // #FF007ACC
-                statusBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x7A, 0xCC));
+                statusBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x41, 0x69, 0xE1));
             }
             statusInfoTextBlock.Text = message;
         }

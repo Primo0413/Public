@@ -628,6 +628,17 @@ namespace WPFSerialAssistant
         private void showRecvDataCheckBox_Click(object sender, RoutedEventArgs e)
         {
             showReceiveData = (bool)showRecvDataCheckBox.IsChecked;
+
+            if (showReceiveData)
+            {
+                recvCharacterRadioButton.IsEnabled = true;
+                recvHexRadioButton.IsEnabled = true;
+            }
+            else
+            {
+                recvCharacterRadioButton.IsEnabled = false;
+                recvHexRadioButton.IsEnabled = false;
+            }
         }
 
         /// <summary>
