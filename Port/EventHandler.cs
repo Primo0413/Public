@@ -35,7 +35,7 @@ namespace WPFSerialAssistant
         Last,       // 在最后添加
         LastTow,    // 在倒数第二个字节前添加
     }
-    public partial class MainWindow : Window
+    public partial class SerialAssistantPage : UserControl
     {
         #region Global
         // 接收并显示的方式
@@ -95,7 +95,10 @@ namespace WPFSerialAssistant
         /// <param name="e">事件参数</param>
         private void exitMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            if (Window.GetWindow(this) is Window parentWindow)
+            {
+                parentWindow.Close();
+            }
         }
 
         /// <summary>
@@ -375,10 +378,35 @@ namespace WPFSerialAssistant
                 {
                     case "char":
                         receiveMode = ReceiveMode.Character;
-                        Information("提示：字符显示模式。");
                         break;
                     case "hex":
                         receiveMode = ReceiveMode.Hex;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void recvModeButton_Click(object sender, RoutedEventArgs e)
+        {
+            RadioButton rb = sender as RadioButton;
+
+            if (recvDataRichTextBox == null)
+            {
+                return;
+            }
+
+            if (rb != null)
+            {
+                recvDataRichTextBox.Document.Blocks.Clear();
+
+                switch (rb.Tag.ToString())
+                {
+                    case "char":
+                        Information("提示：字符显示模式。");
+                        break;
+                    case "hex":
                         Information("提示：十六进制显示模式。");
                         break;
                     default:
@@ -535,20 +563,38 @@ namespace WPFSerialAssistant
                 {
                     case "None":
                         checkmode = CheckMode.None;
-                        Information("提示：不添加校验。");
 
                         noCheckPositionRadioButton.IsChecked = true;
-                        noCheckPositionRadioButton.IsEnabled = false; 
-                        lastCheckPositionRadioButton.IsEnabled = false; 
+                        noCheckPositionRadioButton.IsEnabled = false;
+                        lastCheckPositionRadioButton.IsEnabled = false;
                         lasttwoCheckPositionRadioButton.IsEnabled = false;
                         break;
                     case "CRC16":
                         checkmode = CheckMode.Crc16;
-                        Information("提示：添加CRC-16校验。");
 
                         noCheckPositionRadioButton.IsEnabled = true;
                         lastCheckPositionRadioButton.IsEnabled = true;
                         lasttwoCheckPositionRadioButton.IsEnabled = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void CheckModeButton_Click(object sender, RoutedEventArgs e)
+        {
+            RadioButton rb = sender as RadioButton;
+
+            if (rb != null && rb.Tag != null)
+            {
+                switch (rb.Tag.ToString())
+                {
+                    case "None":
+                        Information("提示：不添加校验。");
+                        break;
+                    case "CRC16":
+                        Information("提示：添加CRC-16校验，请选择校验位置。");
                         break;
                     default:
                         break;
@@ -573,7 +619,6 @@ namespace WPFSerialAssistant
                 {
                     case "None":
                         checkpos = CheckPos.None;
-                        Information("提示：不添加校验。");
                         break;
                     case "Last":
                         checkpos = CheckPos.Last;
@@ -591,6 +636,11 @@ namespace WPFSerialAssistant
             text = AddHexBytesCrc(hexValues);
 
             sendDataTextBox.Text = text;
+        }
+
+        private void NOnePosButton_Click(object sender, RoutedEventArgs e)
+        {
+            Information("提示：不添加校验。");
         }
 
         /// <summary>
@@ -650,7 +700,7 @@ namespace WPFSerialAssistant
         {
             RadioButton rb = sender as RadioButton;
 
-            if (rb != null)
+            if (rb != null && rb.Tag != null)
             {
                 switch (rb.Tag.ToString())
                 {
@@ -766,7 +816,7 @@ namespace WPFSerialAssistant
         /// </summary>
         /// <param name="sender">事件源</param>
         /// <param name="e">取消事件参数</param>
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        public void Port_Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // 释放没有关闭的端口资源
             if (serialPort.IsOpen)
@@ -786,7 +836,7 @@ namespace WPFSerialAssistant
         /// </summary>
         /// <param name="sender">事件源</param>
         /// <param name="e">按键事件参数</param>
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        public void Port_Window_KeyDown(object sender, KeyEventArgs e)
         {
             // Ctrl+S保存数据
             if (e.Key == Key.S && e.KeyboardDevice.IsKeyDown(Key.LeftCtrl))

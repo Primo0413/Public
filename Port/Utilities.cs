@@ -59,17 +59,21 @@ namespace WPFSerialAssistant
 
                     // 转换成字符串
                     result = encoding.GetString(src.ToArray<byte>());
-                    break;
+                    return result.Trim();
                     
                 case SendMode.Hex:
-                    
+
+                    StringBuilder Hexresult = new StringBuilder();
                     byte[] byteStr = encoding.GetBytes(text.ToCharArray());
 
                     foreach (var item in byteStr)
                     {
-                        result += Convert.ToString(item, 16).ToUpper() + " ";
+                        // result += Convert.ToString(item, 16).ToUpper() + " ";
+                        Hexresult.Append(item.ToString("X2").ToUpper());
+                        Hexresult.Append(" ");
                     }
-                    break;
+
+                    return Hexresult.ToString();
                 default:
                     break;
             }

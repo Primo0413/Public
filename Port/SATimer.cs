@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 //using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace WPFSerialAssistant
 {
-    public partial class MainWindow : Window
+    public partial class SerialAssistantPage : UserControl
     {
         /// <summary>
         /// 用于更新时间的定时器

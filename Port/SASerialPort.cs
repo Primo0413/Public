@@ -6,11 +6,12 @@ using System.Text;
 using System.Threading;
 //using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace WPFSerialAssistant
 {
-    public partial class MainWindow : Window
+    public partial class SerialAssistantPage : UserControl
     {
         /// <summary>
         /// SerialPort对象

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 //using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace WPFSerialAssistant
 {
-    public partial class MainWindow : Window
+    public partial class SerialAssistantPage : UserControl
     {
         // 保存面板的显示状态
         private Stack<Visibility> panelVisibilityStack = new Stack<Visibility>(3);

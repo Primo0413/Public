@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace WPFSerialAssistant
 {
-    public partial class MainWindow : Window
+    public partial class SerialAssistantPage : UserControl
     {
         /// <summary>
         /// 核心初始化
@@ -25,7 +25,7 @@ namespace WPFSerialAssistant
             InitSerialPort();
 
             // 查找可以使用的端口号
-            FindPorts();
+            //FindPorts();
         }
 
         #region 状态栏
@@ -208,11 +208,14 @@ namespace WPFSerialAssistant
             config.Add("timeUnit", timeUnitComboBox.SelectedIndex);
 
             // 窗口状态信息
-            config.Add("maxmized", this.WindowState == WindowState.Maximized);  
-            config.Add("windowWidth", this.Width);
-            config.Add("windowHeight", this.Height);
-            config.Add("windowLeft", this.Left);
-            config.Add("windowTop", this.Top);
+            if (Window.GetWindow(this) is MainWindow mainWindow) // 获取父窗口
+            {
+                config.Add("maximized", mainWindow.WindowState == WindowState.Maximized);
+                config.Add("windowWidth", mainWindow.Width);
+                config.Add("windowHeight", mainWindow.Height);
+                config.Add("windowLeft", mainWindow.Left);
+                config.Add("windowTop", mainWindow.Top);
+            }
 
             // 面板显示状态
             config.Add("serialPortConfigPanelVisible", serialPortConfigPanel.Visibility == Visibility.Visible);
@@ -289,18 +292,22 @@ namespace WPFSerialAssistant
             timeUnitComboBox.SelectedIndex = timeUnitIndex;
 
             // 窗口状态
-            if (config.GetBool("maxmized"))
+            if (Window.GetWindow(this) is MainWindow mainWindow) // 获取父窗口
             {
-                this.WindowState = WindowState.Maximized;
+                if (config.GetBool("maxmized"))
+                {
+                    mainWindow.WindowState = WindowState.Maximized;
+                }
+
+                double width = config.GetDouble("windowWidth");
+                double height = config.GetDouble("windowHeight");
+                double top = config.GetDouble("windowTop");
+                double left = config.GetDouble("windowLeft");
+                mainWindow.Width = width;
+                mainWindow.Height = height;
+                mainWindow.Top = top;
+                mainWindow.Left = left;
             }
-            double width = config.GetDouble("windowWidth");
-            double height = config.GetDouble("windowHeight");
-            double top = config.GetDouble("windowTop");
-            double left = config.GetDouble("windowLeft");
-            this.Width = width;
-            this.Height = height;
-            this.Top = top;
-            this.Left = left;
 
             // 面板显示状态
             if (config.GetBool("serialPortConfigPanelVisible"))
